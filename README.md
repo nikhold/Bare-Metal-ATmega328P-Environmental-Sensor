@@ -2,20 +2,25 @@
 A lightweight, non-blocking environmental monitoring system built in bare-metal C on the ATmega328P (Arduino Uno hardware). Designed without high-level Arduino libraries or blocking loops (`_delay_ms()`), utilizing direct memory-mapped register manipulation, hardware interrupts, and cooperative multi-tasking.
 
 ## Serial Demo
-<img src="assets/env_sensor_monitor_demo.gif" alt="Demo of serial output">
+<p align="left">
+  <img src="assets/env_sensor_monitor_demo.gif" alt="Demo of serial output">
+</p>
 
 ## Circuit Demo
-<img src="assets/env_sensor_circuit_demo.gif" alt="Demo of circuit operation">
-
+<p align="left">
+  <img src="assets/env_sensor_circuit_demo.gif" alt="Demo of circuit operation">
+</p>
 ## Key Engineering Highlights
 
-- Zero-Blocking Architecture: Uses Timer1 in Clear Timer on Compare (CTC) mode for exact 1-second sampling intervals, freeing the CPU core for event handling.
+- Non-Blocking Hardware Timing: Configured Timer1 in CTC mode (TCCR1B) with a calculated compare value (OCR1A = 15624) to trigger 1-second sampling interrupts (TIMER1_COMPA_vect). This completely eliminates blocking delay routines like _delay_ms() and frees the CPU for background processing.
 
-- Hardware Interrupt Driven: Pushbutton input managed via INT0 external interrupt with hardware flag clearing (EIFR) to eliminate initialization noise and ghost triggers.
+- Bare-Metal Analog Acquisition: Managed 10-bit light sensing by configuring reference voltage and channel 0 selection in ADMUX, setting the ADC prescaler to 128 via ADCSRA for optimal 125 kHz sampling frequency, and reading raw conversion data directly from the ADC register pair.
 
-- Direct Register Control: Built completely from scratch using avr-libc register definitions for GPIO, ADC, Timer1, and UART peripherals.
+- Hardware Interrupt Handling: Configured INT0 (PD2) via EICRA for falling-edge detection and enabled vector interrupts through EIMSK. Cleared pending interrupt flags on startup by writing to EIFR to prevent ghost triggers on power-up.
 
-- Cooperative Multitasking: Main loop processes atomic state flags set by hardware ISRs, achieving deterministic timing and high execution efficiency.
+- Register-Level UART Telemetry: Implemented serial communications without external libraries by configuring UBRR0 for target 9600 baud rate generation, enabling transmission via UCSR0B, and writing character payloads directly to the transmit buffer register UDR0.
+
+- Deterministic Cooperative Architecture: Built an event-driven main loop that monitors atomic state flags toggled exclusively inside ISR routines (ISR(INT0_vect) and ISR(TIMER1_COMPA_vect)), keeping execution deterministic and preventing race conditions.
 
 ## Hardware Specifications & Pin Mapping
 
@@ -46,9 +51,16 @@ This project is configured for the PlatformIO IDE extension in Visual Studio Cod
 
 ### Flashing
 
-1. Open Project: Launch VS Code and open the root project directory (File -> Open Folder). PlatformIO will automatically detect platformio.ini.
-2. Compile Firmware: Build the firmware (click the Checkmark icon on the bottom PlatformIO status bar) to run avr-gcc and compile the executable.
-3. Flash Board: Plug the Arduino Uno into your computer via USB and upload the firmware (click the Right Arrow icon on the bottom status bar to upload the binary).
+#### Using the terminal method
+
+1. Open Project: Launch VS Code and ensure the terminal path is in the root directory (CLI should then be preconfigured for `pio` use).
+2. Compile, Flash, and Monitor: Run command `pio run -t upload -t monitor` to build the firmware, flash the firmware, and open the monitor for live log output.
+
+#### Using non-terminal method
+
+1. Open Project: Launch VS Code and open the root project directory (File -> Open Folder). Ensure platformio.ini is in the root directory for PlatformIO automatic detection.
+2. Compile Firmware: Build the firmware (click the Checkmark icon on the bottom PlatformIO status bar) to run avr-gcc and compile the executable. If using the terminal, run `pio run` to compile.
+3. Flash Board: Plug the Arduino Uno into your computer via USB and upload the firmware (click the Right Arrow icon on the bottom status bar to upload the binary). If using the terminal, run 
 4. View Telemetry: View the serial monitor to see the live log output (click the Plug icon on the status bar to open the built-in Serial Monitor).
 
 ## References & Resources
