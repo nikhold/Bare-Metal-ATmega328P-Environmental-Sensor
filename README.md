@@ -1,5 +1,5 @@
-# Bare-Metal ATmega328P Environmental Sensor
-A lightweight, non-blocking environmental monitoring system built in bare-metal C on the ATmega328P (Arduino Uno hardware). Designed without high-level Arduino libraries or blocking loops (_delay_ms()), utilizing direct memory-mapped register manipulation, hardware interrupts, and cooperative multi-tasking.
+# Bare-Metal ATmega328P Light-sensing Node
+A lightweight, non-blocking environmental monitoring system built in bare-metal C on the ATmega328P (Arduino Uno hardware). Designed without high-level Arduino libraries or blocking loops (`_delay_ms()`), utilizing direct memory-mapped register manipulation, hardware interrupts, and cooperative multi-tasking.
 
 ## Serial Demo
 <img src="assets/env_sensor_monitor_demo.gif" alt="Demo of serial output">
@@ -32,7 +32,7 @@ A lightweight, non-blocking environmental monitoring system built in bare-metal 
 <p align="center">
   <img src="assets/env_schematic.jpeg" width="30%" alt="Image of sensor schematic">
   <img src="assets/env_side_circuit.jpeg" width="30%" alt="Side view of circuit">
-  <img src="assets/env_top_down_circuit.jpeg" width="30%" alt="Top down view of circuit"
+  <img src="assets/env_top_down_circuit.jpeg" width="30%" alt="Top down view of circuit">
 </p>
 
 ## Build & Deployment
