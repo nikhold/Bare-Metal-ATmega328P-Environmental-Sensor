@@ -25,10 +25,14 @@ A lightweight, non-blocking environmental monitoring system built in bare-metal 
 | Pushbutton Switch | Pin D2 | PD2 (INT0) | Falling-edge external interrupt for alarm acknowledge |
 | Status LED | Pin D13 | PB5 (PORTB) | Digital output indicating low-light threshold state |
 
-*Note: UART telemetry runs internally done over onboard USB connection*
+*Note: UART telemetry runs internally over onboard USB connection*
+
+## Schematic & Breadboard Build
 
 <p align="center">
-  <img src="docs/env_schematic.jpeg" width="30%" alt="Image of sensor schematic">
+  <img src="assets/env_schematic.jpeg" width="30%" alt="Image of sensor schematic">
+  <img src="assets/env_side_circuit.jpeg" width="30%" alt="Side view of circuit">
+  <img src="assets/env_top_down_circuit.jpeg" width="30%" alt="Top down view of circuit"
 </p>
 
 ## Build & Deployment
