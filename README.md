@@ -11,19 +11,19 @@ A lightweight, non-blocking environmental monitoring system built in bare-metal 
 
 ## Key Engineering Highlights
 
-- Non-Blocking Hardware Timing: Configured Timer1 in CTC mode (TCCR1B) with a calculated compare value (OCR1A = 15624) to trigger 1-second sampling interrupts (TIMER1_COMPA_vect). This completely eliminates blocking delay routines like _delay_ms() and frees the CPU for background processing.
+- Non-Blocking Hardware Timing: Configured Timer1 in CTC mode (`TCCR1B`) with a calculated compare value (OCR1A = 15624) to trigger 1-second sampling interrupts (`TIMER1_COMPA_vect`). This completely eliminates blocking delay routines like `_delay_ms()` and frees the CPU for background processing.
 
-- Bare-Metal Analog Acquisition: Managed 10-bit light sensing by configuring reference voltage and channel 0 selection in ADMUX, setting the ADC prescaler to 128 via ADCSRA for optimal 125 kHz sampling frequency, and reading raw conversion data directly from the ADC register pair.
+- Bare-Metal Analog Acquisition: Managed 10-bit light sensing by configuring reference voltage and channel 0 selection in `ADMUX`, setting the ADC prescaler to 128 via `ADCSRA` for optimal 125 kHz sampling frequency, and reading raw conversion data directly from the ADC register pair.
 
-- Hardware Interrupt Handling: Configured INT0 (PD2) via EICRA for falling-edge detection and enabled vector interrupts through EIMSK. Cleared pending interrupt flags on startup by writing to EIFR to prevent ghost triggers on power-up.
+- Hardware Interrupt Handling: Configured INT0 (PD2) via `EICRA` for falling-edge detection and enabled vector interrupts through `EIMSK`. Cleared pending interrupt flags on startup by writing to `EIFR` to prevent ghost triggers on power-up.
 
-- Register-Level UART Telemetry: Implemented serial communications without external libraries by configuring UBRR0 for target 9600 baud rate generation, enabling transmission via UCSR0B, and writing character payloads directly to the transmit buffer register UDR0.
+- Register-Level UART Telemetry: Implemented serial communications without external libraries by configuring UBRR0 for target 9600 baud rate generation, enabling transmission via `UCSR0B`, and writing character payloads directly to the transmit buffer register `UDR0`.
 
-- Deterministic Cooperative Architecture: Built an event-driven main loop that monitors atomic state flags toggled exclusively inside ISR routines (ISR(INT0_vect) and ISR(TIMER1_COMPA_vect)), keeping execution deterministic and preventing race conditions.
+- Deterministic Cooperative Architecture: Built an event-driven main loop that monitors atomic state flags toggled exclusively inside ISR routines (`ISR(INT0_vect)` and `ISR(TIMER1_COMPA_vect)`), keeping execution deterministic and preventing race conditions.
 
 ## High-level Workflow Chart
 
-<img src="assets/env_highlevel_diagram.png" alt="Diagram of high-level solution steps">
+![Diagram of high-level solution steps](assets/env_highlevel_diagram.png)
 
 ## Hardware Specifications & Pin Mapping
 
@@ -71,3 +71,5 @@ This project is configured for the PlatformIO IDE extension in Visual Studio Cod
 * [Arduino UNO R3 Pinout Sheet](https://docs.arduino.cc/resources/pinouts/A000066-full-pinout.pdf)
 * [ATmega328P Datasheet](https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-7810-Automotive-Microcontrollers-ATmega328P_Datasheet.pdf)
 * [AVR-LibC Reference Manual](https://www.gnu.org/software/avr-libc/user-manual/)
+
+*Note: Gemini 3.6 Thinking was used for pretesting and sanitizing code, as well as formatting improvements*
