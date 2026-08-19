@@ -10,6 +10,7 @@ A lightweight, non-blocking environmental monitoring system built in bare-metal 
 <p align="left">
   <img src="assets/env_sensor_circuit_demo.gif" alt="Demo of circuit operation">
 </p>
+
 ## Key Engineering Highlights
 
 - Non-Blocking Hardware Timing: Configured Timer1 in CTC mode (TCCR1B) with a calculated compare value (OCR1A = 15624) to trigger 1-second sampling interrupts (TIMER1_COMPA_vect). This completely eliminates blocking delay routines like _delay_ms() and frees the CPU for background processing.
