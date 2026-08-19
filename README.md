@@ -23,6 +23,10 @@ A lightweight, non-blocking environmental monitoring system built in bare-metal 
 
 - Deterministic Cooperative Architecture: Built an event-driven main loop that monitors atomic state flags toggled exclusively inside ISR routines (ISR(INT0_vect) and ISR(TIMER1_COMPA_vect)), keeping execution deterministic and preventing race conditions.
 
+## High-level Workflow Chart
+
+<img src="assets/env_highlevel_diagram.png" alt="Diagram of high-level solution steps">
+
 ## Hardware Specifications & Pin Mapping
 
 | Component | ATmega328P Pin | AVR Register | Functional Description |
